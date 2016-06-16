@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AdWeb HW2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        .gun {
+            position: absolute;
+            bottom: 0;
+            width: 20%;
+            z-index: 100;
+        }
+        #gun1 {
+            right: 0;
+        }
+        #gun2 {
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <img class="gun" id="gun1" src="img/1.png">
+    <img class="gun" id="gun2" src="img/2.png">
+</div>
+<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+<script src="js/libs/jquery.js" type="text/javascript"></script>
+<script src="js/libs/Three.js" type="text/javascript"></script>
+<script src="js/libs/FirstPersonControls.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+</body>
+</html>
