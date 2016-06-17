@@ -1,3 +1,39 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Document of Ad Web Homework 2](#document-of-ad-web-homework-2)
+  - [概述](#%E6%A6%82%E8%BF%B0)
+  - [1. 项目下载和部署](#1-%E9%A1%B9%E7%9B%AE%E4%B8%8B%E8%BD%BD%E5%92%8C%E9%83%A8%E7%BD%B2)
+    - [1.1 项目下载](#11-%E9%A1%B9%E7%9B%AE%E4%B8%8B%E8%BD%BD)
+    - [1.2 项目部署](#12-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2)
+  - [2. Three.js](#2-threejs)
+    - [2.1 Scene](#21-scene)
+    - [2.2 Light](#22-light)
+    - [2.3 Camera](#23-camera)
+    - [2.4 Geometry](#24-geometry)
+    - [2.5 Material](#25-material)
+    - [2.6 TextureLoader](#26-textureloader)
+    - [2.7 Skybox](#27-skybox)
+    - [2.8 Ground](#28-ground)
+    - [2.9 Bullet](#29-bullet)
+    - [2.10 Player](#210-player)
+    - [2.11 Birds](#211-birds)
+    - [2.12 Control](#212-control)
+    - [2.13 Renderer](#213-renderer)
+    - [2.14 Animate](#214-animate)
+    - [2.15 Stats.js](#215-statsjs)
+  - [3. Socket.io](#3-socketio)
+    - [3.1 Socket核心操作](#31-socket%E6%A0%B8%E5%BF%83%E6%93%8D%E4%BD%9C)
+      - [3.1.1 发送](#311-%E5%8F%91%E9%80%81)
+      - [3.1.2 接收](#312-%E6%8E%A5%E6%94%B6)
+      - [3.1.3 广播](#313-%E5%B9%BF%E6%92%AD)
+    - [3.1 客户端Socket](#31-%E5%AE%A2%E6%88%B7%E7%AB%AFsocket)
+    - [3.2 服务端Socket](#32-%E6%9C%8D%E5%8A%A1%E7%AB%AFsocket)
+  - [4. Node.js](#4-nodejs)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Document of Ad Web Homework 2
 
 ## 概述
@@ -23,6 +59,7 @@ $ node app.js
 运行后再浏览器中输入地址：http://localhost:8000/ 即可运行项目。
 
 ## 2. Three.js
+
 ### 2.1 Scene
 Scene，即场景。是一个Three.js应用中的基础。所有后续的物体、灯光、控制等部件都会被添加到一个场景中。
 ```javascript
@@ -175,6 +212,7 @@ loader.load("models/animated/stork.js", function (geometry) {
 
 ![](http://pan01.qiniudn.com/adwebhw2/adwebhw2.png)
 
+
 ### 2.12 Control
 有了界面以后，我们需要动态的控制我们的人物去运动。本质上我们就是控制场景中的Camera随着鼠标的移动以及键盘的操作，来进行相应的运动。我们使用FirstPersonControls这个控制类。在实现原理上，FirstPersonControls.js监听来自WASD以及上下左右键的事件，然后吧camera的position进行相应的移动。同时监听鼠标的移动操作，获取当前鼠标位置与页面中心点的位置偏差，然后利用这个位置偏差计算camera的lookAt角度。用以上两点，来模拟出这个第一视角控制类。我们通过如下代码添加这个control。
 ```javascript
@@ -251,7 +289,7 @@ requestAnimationFrame(animate);
 ```
 可能会有疑问为什么不直接用最原始的SetIntervel来固定频率调用。我查到的解释是，这个函数会根据画面渲染时间来决定实际帧数，而不像SetIntervel那样固定FPS。因此如果你的渲染非常大，那可能你的设备并不能完成一秒60次的渲染，那么用setIntervel固定FPS就会使得某些帧无法得到渲染。而使用requestAnimationFrame，它会动态得改变FPS，比如一段高强度渲染，设备无法跟上FPS60，那就自动降到合适的FPS，保证每帧渲染都能完成。
 
-### 2.15 stats.min.js
+### 2.15 Stats.js
 那么既然requestAnimationFrame会降低我们的FPS，那我们需要一个小插件来实时的查看FPS，以此检测自己的程序性能。Three.js的作者为我们完成了这个小插件，即stats.js。
 我们首先声明这个小插件，并将它添加到页面中：
 ```javascript
@@ -270,6 +308,7 @@ function animate() {
 这样就完成了。可以在前面的截图中看到右上角显示着FPS信息。这个功能可以帮助你定量的衡量程序性能。只要能做到60FPS即表示当前设备可以流程运行该项目。
 实际编写中，曾经为每个子弹和玩家去重新new他们，FPS低于60。后来采用了clone()的技巧，目前程序理论上可以跑满60FPS。
 
+
 ## 3. Socket.io
 要实现多人对战，最先想到的做法是用轮询，不断地发起请求。但射击游戏实时性很高，一直发HTTP请求太不优雅。而且由于HTTP是被动请求，服务器端算出来死了一个人不能主动发出请求，所以不太可信。
 WebSocket是一个可行的方法，建立一个长链接，然后传输各个用户操作和状态到服务器端。这意味着我们需要实现一个符合Websocket协议规范的服务器。在这个作业中我们使用Socket.io 这个WebSocket库。可以通过Node.js来实现WebSocket服务端。同时Socket.io实现了实时双向的基于事件的通讯机制，模糊化各种传输机制。我们的射击游戏无非就是移动，开枪，被杀这些事件。
@@ -277,6 +316,7 @@ WebSocket是一个可行的方法，建立一个长链接，然后传输各个�
 
 ### 3.1 Socket核心操作
 Socket核心操作即发送，接受和广播操作。
+
 #### 3.1.1 发送
 Socket的发送函数是 ``emit()``，调用时声明事件、数据：
 ```javascript
