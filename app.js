@@ -1,4 +1,4 @@
-var app = require('http').createServer(handler);
+var app = require('http').createServer(server);
 var io = require('socket.io')(app);
 var fs = require('fs');
 var url = require('url');
@@ -11,16 +11,15 @@ app.listen(8000);
 console.log("\nGame Log:\n");
 
 // Set up the Server
-function handler(req, res) {
+function server(req, res) {
     var path = url.parse(req.url).pathname;
-    if (path == '/') path = '/index.html';
+    if (path == '/') path = '/index.html'; // Set default path = index.html
     fs.readFile(__dirname + path, function (err, data) {
         if (err) {
             console.log("404 not found: " + path);
             res.writeHead(404);
             res.write('404 not found: ' + path);
         } else {
-            //res.writeHead(200, {'Content-Type': path == 'gameClient.js' ? 'text/javascript' : 'text/html'})
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write(data, 'utf8');
         }
@@ -43,14 +42,14 @@ io.on('connection', function (socket) {
 
     // Receive Player's Fire Action
     socket.on('bullet', function (data) {
-        console.log('Player ' + socketid + ' fired!\n');
+        console.log('Player ' + socketid + ' fired.\n');
         bullets[bullets.length] = {'position': data[0], 'speed': data[1], 'clientOrigin': socketid};
         socket.broadcast.emit('bullet', data);
     });
 
     // Receive Player's Offline Action
     socket.on('disconnect', function () {
-        console.log('Player ' + socketid + ' disconnected\n');
+        console.log('Player ' + socketid + ' disconnected.\n');
         delete players[socketid];
         socket.broadcast.emit('player', {'offline': socketid});
     })
@@ -76,8 +75,6 @@ function bulletHandler() {
             if (player != bullets[i].clientOrigin) {
                 var playerVector = new THREE.Vector3(players[player][0].x, players[player][0].y, players[player][0].z);
                 var distance = bulletVector.distanceTo(playerVector);
-                //console.log(playerVector);
-                //console.log('distance = ' + distance);
                 if (distance <= 10) {
                     console.log(bullets[i].clientOrigin + " killed " + player + "!\n");
                     players[player][0].x = 9999; // remove the dead player out of the battle field

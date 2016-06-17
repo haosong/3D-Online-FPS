@@ -1,6 +1,6 @@
 var socket = io('http://localhost:8000');
-var camera, controls, scene, renderer;
-var light, pointLight, mesh;
+var camera, controls, scene, renderer, stats;
+var light, mesh;
 var mixer, morphs = [];
 var playerFactory, particle, color, id;
 var players = [];
@@ -68,15 +68,19 @@ animate();
 // Fire
 $(this).click(function () {
     var speed = camera.getWorldDirection().multiplyScalar(20); // create speed vactor
-    AddBullet(camera.position, speed, color);
-    socket.emit('bullet', [controls.object.position, speed, color]);
+    AddBullet(camera.position, speed);
+    socket.emit('bullet', [controls.object.position, speed]);
 });
 
 function init() {
+    // Stats Monitor
+    stats = new Stats();
+    stats.showPanel(0);
+    document.body.appendChild(stats.dom);
 
     // Camera
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(0, 25, 0);
+    camera.position.set(Math.random() * 600 - 300, 25, Math.random() * 600 - 300);// Random create initial position [-400, 400]
 
     // Scene
     scene = new THREE.Scene();
@@ -147,7 +151,6 @@ function init() {
         scene.add(mesh);
         morphs.push(mesh);
     }
-
     loader.load("models/animated/stork.js", function (geometry) {
         addMorph(geometry, 350, 1, 500 - Math.random() * 500, 0 + 350, 340, true);
     });
@@ -168,7 +171,7 @@ function init() {
     controls.lookVertical = true;
     window.addEventListener('resize', onWindowResize, false);
 
-    // Add Enenmy
+    // Other Players
     loader.load('./models/skinned/simple/simple.js', function (geometry, materials) {
         for (var k in materials) {
             materials[k].skinning = true;
@@ -177,15 +180,16 @@ function init() {
         playerFactory.scale.set(2.5, 2.5, 2.5);
         playerFactory.position.set(0, 15, 0);
         playerFactory.skeleton.useVertexTexture = false;
-        //scene.add( skinnedMesh );
+        //scene.add( skinnedMesh ); // Not add to scene
         mixer = new THREE.AnimationMixer(playerFactory);
         mixer.clipAction(playerFactory.geometry.animations[0]).play();
     });
 }
 
 function animate() {
+    stats.begin();
     requestAnimationFrame(animate);
-    socket.emit('player', [controls.object.position, {'color': ''}]);
+    socket.emit('player', [controls.object.position]);
     // update position of all the bullets
     for (var i = 0; i < bullets.length; i++) {
         var bullet = bullets[i].particle;
@@ -204,6 +208,7 @@ function animate() {
     }
     restrictField(controls, xyzLimit);
     render();
+    stats.end();
 }
 
 function onWindowResize() {
@@ -243,18 +248,18 @@ function restrictField(controls, restrict) {
     }
 }
 
-function playerHandler(id, position, color) {
+function playerHandler(id, position) {
     console.log("call");
     if (!players[id]) {
         console.log("add");
-        addPlayer(id, position.x, position.y, position.z, color.color);
+        addPlayer(id, position.x, position.y, position.z);
     } else {
         console.log("update");
-        updatePlayer(id, position.x, position.y, position.z, color.color);
+        updatePlayer(id, position.x, position.y, position.z);
     }
 }
 
-function addPlayer(id, x, y, z, color) {
+function addPlayer(id, x, y, z) {
     var playerMesh = playerFactory.clone();
     playerMesh.position.set(x, y, z);
     scene.add(playerMesh);
@@ -264,12 +269,12 @@ function addPlayer(id, x, y, z, color) {
 
 }
 
-function updatePlayer(id, x, y, z, color) {
+function updatePlayer(id, x, y, z) {
     var playerMesh = players[id];
     playerMesh.position.set(x, y, z);
 }
 
-function AddBullet(position, speed, color) {
+function AddBullet(position, speed) {
     particle = new THREE.Sprite(new THREE.SpriteMaterial({map: bulletMap, color: 0xffffff, fog: true}));
     particle.position.x = position.x;
     particle.position.y = position.y;

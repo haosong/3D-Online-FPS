@@ -7,9 +7,12 @@
     <style>
         body {
             background-color: #ffffff;
+            width: 100%;
             margin: 0;
             overflow: hidden;
             cursor: crosshair;
+            text-align: center;
+            color: royalblue;
         }
         .gun {
             position: absolute;
@@ -23,17 +26,37 @@
         #gun2 {
             left: 0;
         }
+        #info {
+            position: absolute;
+            width: 100%;
+            top: 0;
+        }
+        #copyright {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
     </style>
 </head>
 <body>
+<div id="info">
+    <h3>AdWeb Homework 2</h3>
+    <p>A Multiplayer First-Person Shooting Game</p>
+    <p>Based on Three.js, Socket.io and Node.js</p>
+</div>
 <div id="container">
     <img class="gun" id="gun1" src="img/1.png">
     <img class="gun" id="gun2" src="img/2.png">
+</div>
+<div id="copyright">
+    <a href="https://github.com/song-hao/AdWebHW2">Github Repo</a>
+    <p>© 13302010005@fudan.edu.cn 宋浩</p>
 </div>
 <script src="/socket.io/socket.io.js" type="text/javascript"></script>
 <script src="js/libs/jquery.js" type="text/javascript"></script>
 <script src="js/libs/Three.js" type="text/javascript"></script>
 <script src="js/libs/FirstPersonControls.js" type="text/javascript"></script>
+<script src="js/libs/stats.min.js" type="text/javascript"></script>
 <script src="js/main.js" type="text/javascript"></script>
 </body>
 </html>
