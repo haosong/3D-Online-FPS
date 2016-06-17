@@ -85,7 +85,7 @@ scene.add(light);
 ### 2.3 Camera
 Camera，即模拟查看场景的摄像机。Three.js有三类摄像机。较常用的两种是OrthographicCamera正投影相机和PerspectiveCamera透视投影相机。下图比较直观的展示了两种相机的成相区别：
 
-![](http://www.hewebgl.com/attached/image/20130530/20130530145454_509.png)
+![](https://raw.githubusercontent.com/song-hao/AdWebHW2/master/img/camera.png)
 
 在本项目中我们采用近大远小的透视投影相机，可以更好得模拟第一视角游戏：
 ```
@@ -210,7 +210,7 @@ loader.load("models/animated/stork.js", function (geometry) {
 ```
 最后我们在html中再加入两张枪支的照片放在页面左右下角。至此所有游戏中的场景元素都已经完成。截图如下：
 
-![](http://pan01.qiniudn.com/adwebhw2/adwebhw2.png)
+![](https://raw.githubusercontent.com/song-hao/AdWebHW2/master/img/demo.png)
 
 
 ### 2.12 Control
