@@ -37,7 +37,8 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## 概述
-Homewwork 2利用Three.js, Socket.io和Node.js技术，搭建了一个简易的多玩家3D射击游戏网站。这份文档将介绍搭建这个游戏网站所运用到的部分技术。
+选题"基于WebGL的web3D的实践和开发"
+Homework 2利用Three.js, Socket.io和Node.js技术，搭建了一个简易的多玩家3D射击游戏网站。这份文档将介绍搭建这个游戏网站所运用到的部分技术。
 - Repo Link: [Github](https://github.com/song-hao/AdWebHW2)
 
 ## 1. 项目下载和部署
@@ -459,3 +460,7 @@ for (var player in players) {
 然而，此处的击杀信息是需要使用 ``io.sockets.emit()`` 广播给所有人的。因为这个信息是后台计算所得，A玩家开枪后也不知道自己能否击中，他和B，C玩家一样，需要靠后台计算后发出信息，来决定前端的具体处理。
 
 通过这一点，我们也看了Socket技术的主动性，不像HTTP请求那么被动。
+
+
+
+宋浩 13302010005
