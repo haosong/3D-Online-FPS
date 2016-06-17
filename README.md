@@ -37,7 +37,9 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## 概述
+
 选题"基于WebGL的web3D的实践和开发"
+
 Homework 2利用Three.js, Socket.io和Node.js技术，搭建了一个简易的多玩家3D射击游戏网站。这份文档将介绍搭建这个游戏网站所运用到的部分技术。
 - Repo Link: [Github](https://github.com/song-hao/AdWebHW2)
 
