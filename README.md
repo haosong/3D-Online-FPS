@@ -38,7 +38,6 @@
 
 ## 概述
 Homewwork 2利用Three.js, Socket.io和Node.js技术，搭建了一个简易的多玩家3D射击游戏网站。这份文档将介绍搭建这个游戏网站所运用到的部分技术。
-- Demo Link: [Demo](http://song-hao.github.io/AdWebHW2)
 - Repo Link: [Github](https://github.com/song-hao/AdWebHW2)
 
 ## 1. 项目下载和部署
