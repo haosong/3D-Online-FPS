@@ -1,5 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Document of Ad Web Homework 2
+
 **Table of Contents**
 
 - [Document of Ad Web Homework 2](#document-of-ad-web-homework-2)
@@ -33,8 +35,6 @@
   - [4. Node.js](#4-nodejs)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Document of Ad Web Homework 2
 
 ## 概述
 Homewwork 2利用Three.js, Socket.io和Node.js技术，搭建了一个简易的多玩家3D射击游戏网站。这份文档将介绍搭建这个游戏网站所运用到的部分技术。
